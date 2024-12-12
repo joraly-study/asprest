@@ -1,8 +1,12 @@
+using Microsoft.AspNetCore.Identity;
+
 namespace asp_rest.Models;
 
-public class User
+public class User : IdentityUser<Guid>
 {
-    public int Id { get; set; }
-    public string Login { get; set; }
-    public string Password { get; set; }
+}
+
+public class Role : IdentityRole<Guid>
+{
+    
 }
