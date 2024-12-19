@@ -113,6 +113,21 @@ namespace asp_rest.Controllers
 
             return category;
         }
+        // GET: api/products/categories
+        [HttpGet("categories/count")]
+        public async Task<ActionResult<IEnumerable<CategoryProductCount>>> GetCategoryProductCounts()
+        {
+            var categories = await _context.Category
+                .Include(c => c.Products)
+                .Select(c => new CategoryProductCount
+                {
+                    CategoryName = c.Name,
+                    ProductCount = c.Products.Count
+                })
+                .ToListAsync();
+
+            return Ok(categories);
+        }
 
         private bool ProductExists(int id)
         {
@@ -123,5 +138,10 @@ namespace asp_rest.Controllers
         {
             return _context.Category.Any(e => e.Id == id);
         }
+    }
+    public class CategoryProductCount
+    {
+        public string CategoryName { get; set; }
+        public int ProductCount { get; set; }
     }
 }
